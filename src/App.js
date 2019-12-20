@@ -1,26 +1,48 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
 
-function App() {
+const Context = React.createContext();
+
+function Parent() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Parent</h1>
+      <Child />
     </div>
   );
+}
+function Child() {
+  return (
+    <div>
+      <h1>Child</h1>
+      <Grandchild />
+    </div>
+  );
+}
+function Grandchild() {
+  return (
+    <Context.Consumer>
+      {name => (
+        <div>
+          <h1>Grandchild</h1>
+          <p>name: {name}</p>
+        </div>
+      )}
+    </Context.Consumer>
+  );
+}
+
+class App extends React.Component {
+  render() {
+    const name = "hans";
+
+    return (
+      <Context.Provider value={name}>
+        <div>
+          <Parent />
+        </div>
+      </Context.Provider>
+    );
+  }
 }
 
 export default App;
